@@ -16,8 +16,7 @@ class Diabetes:
             with open(filepath) as file:
                 reader = csv.reader(file)
                 self.header = next(reader)
-                for row in reader:
-                    self.data = row
+                self.data = [row for row in reader]
         except FileNotFoundError:
             print("File not found.")
 
@@ -35,8 +34,8 @@ class Diabetes:
             html.write("<th>Class</th>\n")
             html.write("</tr>\n")
             html.write("<tr>\n")
-            html.write("<th>Positive</th>\n")
-            html.write("<th>Negative</th>\n")
+            html.write("<th colspan=\"2\">Positive</th>\n")
+            html.write("<th colspan=\"2\">Negative</th>\n")
             html.write("</tr>\n")
             html.write("<tr>\n")
             html.write("<th>Yes</th>\n")
@@ -44,19 +43,33 @@ class Diabetes:
             html.write("<th>Yes</th>\n")
             html.write("<th>No</th>\n")
             html.write("</tr>\n")
-            count = 2
-
-            while count1 < columns - 1:
+            columncount = 2
+            while columncount < self.get_dimension()[1] - 2:
                 html.write("<tr>\n")
-                html.write("<th>"+self.header[count1]+"</th>\n")
-                count2 = 1
-                yes = 0
-                no = 0
-                while count2 < rows:
-                    if self.data[count2] = yes count 
-                html.write("<th>"+
+                html.write("<th>"+self.header[columncount]+"</th>\n")
+                rowcount = 0
+                pyes = 0
+                pno = 0
+                nyes = 0
+                nno = 0
+                while rowcount < self.get_dimension()[0] - 1:
+                    if self.data[rowcount][self.get_dimension()[1] - 1] == "Positive":
+                        if self.data[rowcount][columncount] == "Yes":
+                            pyes += 1
+                        else:
+                            pno +=1
+                    else:
+                        if self.data[rowcount][columncount] == "Yes":
+                            nyes += 1
+                        else:
+                            nno +=1
+                    rowcount += 1
+                html.write("<th>"+str(pyes)+"</th>\n")
+                html.write("<th>"+str(pno)+"</th>\n")
+                html.write("<th>"+str(nyes)+"</th>\n")
+                html.write("<th>"+str(nno)+"</th>\n")
                 html.write("</tr>\n")
-                count += 1
+                columncount += 1
             html.write("</table>\n")
             html.write("</html>\n")
 

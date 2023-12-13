@@ -13,7 +13,8 @@ import csv
 class Diabetes:
     def __init__(self, filepath) -> None:
         try:
-            with open(filepath) as file:  # filepath passed is the filename to be opened
+            with open(filepath) as file:
+                # filepath passed is the filename to be opened
                 reader = csv.reader(file)  # read the csv file
                 self.header = next(reader)  # make top row the list of headers
                 # make the rest of the rows into the data
@@ -27,7 +28,8 @@ class Diabetes:
         return [rows, columns]
 
     def web_summary(self, filepath: str) -> None:
-        # open the file that the html will be written to with the name as the filepath passed to it
+        # open the file that the html will
+        # be written to with the name as the filepath passed to it
         with open(filepath, "w") as html:
             html.write("<html>\n")
             html.write("<table>\n")
@@ -61,7 +63,8 @@ class Diabetes:
                 while rowcount < self.get_dimension()[0] - 1:
                     # check last value for p/n
                     if self.data[rowcount][self.get_dimension()[1] - 1] == "Positive":
-                        if self.data[rowcount][columncount] == "Yes":  # add total number of y/n
+                        if self.data[rowcount][columncount] == "Yes":
+                            # add total number of y/n
                             pyes += 1
                         else:
                             pno += 1
@@ -81,18 +84,22 @@ class Diabetes:
             html.write("</table>\n")
             html.write("</html>\n")
 
-    '''Input a dictionary of header and data to the count instances function and it will return the number of instances with all of this data as an integer'''
+    '''Input a dictionary of header and data to the count instances
+      function and it will return the number of instances with
+        all of this data as an integer'''
 
     def count_instances(self, criteria: dict) -> int:
         count = 0
         for row in self.data:  # iterate through each row
-            match = True
-            for key, value in criteria.items():  # check if the values in each column are the same as the criteria data
-                col_index = self.header.index(key)
-                if row[col_index] != str(value):
-                    match = False
+            found = True
+            for key, value in criteria.items():
+                # check if the values in each column
+                #  are the same as the criteria data
+                iCol = self.header.index(key)
+                if row[iCol] != str(value):
+                    found = False
                     break
-            if match:  # if all the criteria are met add one to the count
+            if found:  # if all the criteria are met add one to the count
                 count += 1
         return count
 

@@ -6,7 +6,7 @@
 function encdec(){
   let str_input = document.getElementById("input").value;
     let operation = document.getElementById("operation").value;
-    let answer; 
+    let output; 
 	
 	const mcode = {
       'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
@@ -20,54 +20,63 @@ function encdec(){
       ':': '---...', ',': '--..--', '=': '-...-', '!': '-.-.--', '.': '.-.-.-',
       '-': '-....-', '+': '.-.-.', '"': '.-..-.', '?': '..--..', '/': '-..-.'
     }
-    
+    //depending on whats in the dropdown box
     if (operation === "enc") {
-        // Encode the string to Morse code
-        answer = encodeMorse(str_input, mcode);
+        //text to mcode
+        output = encodeMorse(str_input, mcode);
     } else if (operation === "dec") {
-        // Decode the Morse code to string
-        answer = decodeMorse(str_input, mcode);
+        //mcode to text
+        output = decodeMorse(str_input, mcode);
     }
 
-    document.getElementById("output").innerHTML = answer;
+    document.getElementById("output").innerHTML = output;//display output in output box
 }
-
+//text to mcode
 function encodeMorse(str, mcode) {
+    //make input upercase
     str = str.toUpperCase();
-    let morseCode = "";
+    //initialise output
+    let outputStr = "";
+    //iterate through input
     for (let i = 0; i < str.length; i++) {
+        //translate each character and add a space
         if (mcode.hasOwnProperty(str[i])) {
-            morseCode += mcode[str[i]] + " ";
+            outputStr += mcode[str[i]] + " ";
         } else {
-            // Invalid character
+            //invalid character
             alert("Invalid input");
             return "";
         }
     }
-    return morseCode.trim(); // Remove trailing space
+    return outputStr.trim(); //remove space at the end
 }
-
+//mcode to text
 function decodeMorse(morse, mcode) {
-    let morseArray = morse.split(" ");
-    let decodedString = "";
-    for (let i = 0; i < morseArray.length; i++) {
-        if (morseArray[i] === "") {
-            // Add space between words
-            decodedString += " ";
+    //split at spaces and store in array
+    let inputArr = morse.split(" ");
+    //initialise output 
+    let textOutput = "";
+    //iterate through array
+    for (let i = 0; i < inputArr.length; i++) {
+        if (inputArr[i] === "") {
+            //add space between words
+            textOutput += " ";
         } else {
-            for (let key in mcode) {
-                if (mcode[key] === morseArray[i]) {
-                    decodedString += key;
+            //look for morse in dictionary
+            for (let morseKey in mcode) {
+                //if the key matches add it to the output string
+                if (mcode[morseKey] === inputArr[i]) {
+                    textOutput += morseKey;
                     break;
                 }
             }
         }
     }
-    return decodedString.trim(); // Remove leading and trailing spaces
+    return textOutput.trim(); //remove space at the end
 
 
 	
-	document.getElementById("output").innerHTML = answer;
+	document.getElementById("output").innerHTML = output; //output output
 }
 
 </script>

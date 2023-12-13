@@ -4,8 +4,9 @@
 <script>
 
 function encdec(){
-	let str_input = document.getElementById("input").value;
-	let operation = document.getElementById("operation").value;
+  let str_input = document.getElementById("input").value;
+    let operation = document.getElementById("operation").value;
+    let answer; 
 	
 	const mcode = {
       'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
@@ -19,9 +20,52 @@ function encdec(){
       ':': '---...', ',': '--..--', '=': '-...-', '!': '-.-.--', '.': '.-.-.-',
       '-': '-....-', '+': '.-.-.', '"': '.-..-.', '?': '..--..', '/': '-..-.'
     }
-	/*
-	write your JavaScript codes below
-	*/
+    
+    if (operation === "enc") {
+        // Encode the string to Morse code
+        answer = encodeMorse(str_input, mcode);
+    } else if (operation === "dec") {
+        // Decode the Morse code to string
+        answer = decodeMorse(str_input, mcode);
+    }
+
+    document.getElementById("output").innerHTML = answer;
+}
+
+function encodeMorse(str, mcode) {
+    str = str.toUpperCase();
+    let morseCode = "";
+    for (let i = 0; i < str.length; i++) {
+        if (mcode.hasOwnProperty(str[i])) {
+            morseCode += mcode[str[i]] + " ";
+        } else {
+            // Invalid character
+            alert("Invalid input");
+            return "";
+        }
+    }
+    return morseCode.trim(); // Remove trailing space
+}
+
+function decodeMorse(morse, mcode) {
+    let morseArray = morse.split(" ");
+    let decodedString = "";
+    for (let i = 0; i < morseArray.length; i++) {
+        if (morseArray[i] === "") {
+            // Add space between words
+            decodedString += " ";
+        } else {
+            for (let key in mcode) {
+                if (mcode[key] === morseArray[i]) {
+                    decodedString += key;
+                    break;
+                }
+            }
+        }
+    }
+    return decodedString.trim(); // Remove leading and trailing spaces
+
+
 	
 	document.getElementById("output").innerHTML = answer;
 }
@@ -30,7 +74,7 @@ function encdec(){
 </head>
 <body>
 <H1>Morse code encoder/decoder</H1>
-<h3>@author: write your name here </h3>
+<h3>@author: Manus McFadden </h3>
 <div>
 <form>
 <p> Enter a string</p>
